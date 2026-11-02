@@ -1,0 +1,208 @@
+:root {
+  --accent: #ff4d8d;
+  --accent2: #ff9a8b;
+  --bg-from: #2a0a1f;
+  --bg-to: #12040d;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: "Poppins", system-ui, sans-serif;
+  color: #fff;
+  background: linear-gradient(160deg, var(--bg-from), var(--bg-to)) fixed;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.app { position: relative; min-height: 100vh; }
+
+/* Floating background hearts */
+.hearts { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+.hearts span {
+  position: absolute;
+  bottom: -60px;
+  opacity: 0;
+  color: var(--accent);
+  animation: floatUp linear infinite;
+}
+@keyframes floatUp {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.55; }
+  90% { opacity: 0.35; }
+  100% { transform: translateY(-115vh) rotate(40deg); opacity: 0; }
+}
+
+/* Click burst */
+.burst {
+  position: fixed;
+  z-index: 50;
+  pointer-events: none;
+  color: var(--accent);
+  animation: burst 1.2s ease-out forwards;
+}
+@keyframes burst {
+  to { transform: translate(var(--dx), var(--dy)) scale(0.4); opacity: 0; }
+}
+
+/* Hero */
+.hero {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem 1.25rem;
+}
+.big-heart {
+  font-size: clamp(4rem, 14vw, 7rem);
+  color: var(--accent);
+  filter: drop-shadow(0 0 24px var(--accent));
+  animation: beat 1.3s ease-in-out infinite;
+}
+@keyframes beat {
+  0%, 100% { transform: scale(1); }
+  15% { transform: scale(1.18); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.12); }
+}
+.eyebrow {
+  font-weight: 300;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  margin-top: 1rem;
+  opacity: 0.85;
+  font-size: 0.9rem;
+}
+h1 {
+  font-family: "Dancing Script", cursive;
+  font-size: clamp(3.5rem, 15vw, 8rem);
+  line-height: 1.05;
+  background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shine 5s linear infinite;
+}
+@keyframes shine { to { background-position: 200% center; } }
+.tagline { min-height: 2rem; margin-top: 1rem; font-size: clamp(1rem, 3.5vw, 1.4rem); font-weight: 300; }
+.caret { animation: blink 0.9s steps(1) infinite; color: var(--accent); }
+@keyframes blink { 50% { opacity: 0; } }
+.scroll-hint { position: absolute; bottom: 1.5rem; font-size: 1.6rem; opacity: 0.6; animation: bob 1.8s ease-in-out infinite; }
+@keyframes bob { 50% { transform: translateY(8px); } }
+
+/* Sections */
+main { position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; padding: 0 1.25rem 3rem; }
+.section { padding: 3rem 0; text-align: center; }
+h2 { font-family: "Dancing Script", cursive; font-size: clamp(2rem, 7vw, 3rem); margin-bottom: 1.75rem; color: var(--accent2); }
+
+.reveal { opacity: 0; animation: reveal 0.9s ease forwards; animation-timeline: auto; }
+@keyframes reveal { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+
+/* Counter */
+.counter { display: flex; flex-wrap: wrap; gap: 0.9rem; justify-content: center; }
+.count-box {
+  min-width: 90px;
+  padding: 1rem 0.8rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+}
+.count-box strong { display: block; font-size: 2rem; color: var(--accent); }
+.count-box span { font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.75; }
+
+/* Gallery */
+.gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
+.photo {
+  background: #fff;
+  color: #333;
+  padding: 0.7rem 0.7rem 0.4rem;
+  border-radius: 6px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+  transform: rotate(var(--tilt));
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  cursor: pointer;
+}
+.photo:hover { transform: rotate(0) scale(1.05); box-shadow: 0 18px 40px rgba(255, 77, 141, 0.4); }
+.photo img, .placeholder { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; border-radius: 3px; }
+.placeholder {
+  display: grid;
+  place-items: center;
+  font-size: 3rem;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+}
+.photo figcaption { font-family: "Dancing Script", cursive; font-size: 1.35rem; padding: 0.5rem 0 0.3rem; }
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.88);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  animation: reveal 0.3s ease;
+  cursor: zoom-out;
+}
+.lightbox img { max-width: 100%; max-height: 80vh; border-radius: 8px; }
+.lightbox p { margin-top: 1rem; font-family: "Dancing Script", cursive; font-size: 1.6rem; }
+
+/* Reasons */
+.reasons { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; text-align: left; }
+.reason {
+  display: flex;
+  gap: 0.9rem;
+  align-items: center;
+  padding: 1.1rem 1.2rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+.reason:hover { transform: translateY(-4px); background: rgba(255, 77, 141, 0.18); }
+.reason span {
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 600;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+}
+
+/* Letter */
+.envelope {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 20px;
+  padding: 2rem 1.5rem;
+  width: min(100%, 560px);
+  transition: transform 0.3s ease;
+}
+.envelope:hover { transform: scale(1.02); }
+.env-icon { font-size: 4rem; display: flex; flex-direction: column; gap: 0.5rem; align-items: center; animation: beat 2s ease-in-out infinite; }
+.env-icon small { font-size: 0.85rem; font-family: "Poppins", sans-serif; opacity: 0.8; }
+.letter { text-align: left; animation: reveal 0.7s ease; }
+.letter h3 { font-family: "Dancing Script", cursive; font-size: 2rem; color: var(--accent2); margin-bottom: 0.8rem; }
+.letter p { line-height: 1.7; font-weight: 300; }
+.letter .sig { margin-top: 1.2rem; font-family: "Dancing Script", cursive; font-size: 1.6rem; color: var(--accent); }
+
+footer { position: relative; z-index: 1; text-align: center; padding: 2rem 1rem 3rem; opacity: 0.6; font-size: 0.85rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+}
